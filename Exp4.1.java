@@ -1,60 +1,155 @@
-Experiment 4.1: Employee Management System
+import java.util.ArrayList;
+import java.util.Scanner;
 
-The Employee Management System is a simple Java-based application that uses ArrayList to manage employee records. The system allows users to perform the following operations:
+class Employee {
+    int id;
+    String name;
+    double salary;
 
-Add Employee → Store Employee ID, Name, and Salary.
+   
+    public Employee(int id, String name, double salary) {
+        this.id = id;
+        this.name = name;
+        this.salary = salary;
+    }
 
-Update Employee → Modify employee details based on their ID.
+    
+    public void displayDetails() {
+        System.out.println("ID: " + id + ", Name: " + name + ", Salary: " + salary);
+    }
 
-Remove Employee → Delete an employee using their ID.
+   
+    public void updateDetails(String name, double salary) {
+        this.name = name;
+        this.salary = salary;
+    }
+}
 
-Search Employee → Find employees by ID or Name.
+public class EmployeeManager {
+    private ArrayList<Employee> employeeList;
 
-Display All Employees → Show a complete list of employees.
+    // Constructor to initialize the employee list
+    public EmployeeManager() {
+        employeeList = new ArrayList<>();
+    }
 
-Test Cases
+    // Method to add a new employee
+    public void addEmployee(int id, String name, double salary) {
+        Employee employee = new Employee(id, name, salary);
+        employeeList.add(employee);
+        System.out.println("Employee added successfully!");
+    }
 
-Test Case 1: Adding Employees (No Employees Initially)
-Display Employees
-Expected Output:
-No employees found.
-  
-Test Case 2: Add Employees
-Input:
-Add Employee (ID=101, Name="Anish", Salary=50000)
-Add Employee (ID=102, Name="Bobby", Salary=60000)
-Expected Output:
-Employee Added: ID=101, Name=Anish, Salary=50000
-Employee Added: ID=102, Name=Bobby, Salary=60000
+    // Method to update an employee by ID
+    public void updateEmployee(int id, String name, double salary) {
+        for (Employee employee : employeeList) {
+            if (employee.id == id) {
+                employee.updateDetails(name, salary);
+                System.out.println("Employee details updated!");
+                return;
+            }
+        }
+        System.out.println("Employee with ID " + id + " not found!");
+    }
 
-Test Case 3: Update Employee Salary
-Input:
-Update Employee (ID=101, New Salary=55000)
-Expected Output:
-Employee ID 101 updated successfully.
+    // Method to remove an employee by ID
+    public void removeEmployee(int id) {
+        for (Employee employee : employeeList) {
+            if (employee.id == id) {
+                employeeList.remove(employee);
+                System.out.println("Employee removed successfully!");
+                return;
+            }
+        }
+        System.out.println("Employee with ID " + id + " not found!");
+    }
 
-Test Case 4: Search Employee by ID
-Input:
-Search Employee by ID=102
-Expected Output:
-Employee Found: ID=102, Name=Bobby, Salary=60000
+    // Method to search an employee by ID
+    public void searchEmployee(int id) {
+        for (Employee employee : employeeList) {
+            if (employee.id == id) {
+                employee.displayDetails();
+                return;
+            }
+        }
+        System.out.println("Employee with ID " + id + " not found!");
+    }
 
-Test Case 5: Remove Employee
-Input:
-Remove Employee (ID=101)
-Expected Output:
-Employee ID 101 removed successfully.
+    // Method to display all employees
+    public void displayAllEmployees() {
+        if (employeeList.isEmpty()) {
+            System.out.println("No employees to display.");
+        } else {
+            for (Employee employee : employeeList) {
+                employee.displayDetails();
+            }
+        }
+    }
 
-Test Case 6: Display All Employees
-Input:
-Display Employees
-Expected Output:
-ID: 102, Name: Bobby, Salary: 60000
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        EmployeeManager manager = new EmployeeManager();
+        int choice;
 
-Test Case 7: Adding Duplicate Employee ID
-Input:
-Add Employee (ID=101, Name="Charlie", Salary=70000)
-Expected Output:
-Error: Employee with ID 101 already exists.
+        while (true) {
+            System.out.println("\nEmployee Management System:");
+            System.out.println("1. Add Employee");
+            System.out.println("2. Update Employee");
+            System.out.println("3. Remove Employee");
+            System.out.println("4. Search Employee");
+            System.out.println("5. Display All Employees");
+            System.out.println("6. Exit");
+            System.out.print("Enter your choice: ");
+            choice = scanner.nextInt();
 
+            switch (choice) {
+                case 1:
+                    System.out.print("Enter Employee ID: ");
+                    int id = scanner.nextInt();
+                    scanner.nextLine(); // Consume newline character
+                    System.out.print("Enter Employee Name: ");
+                    String name = scanner.nextLine();
+                    System.out.print("Enter Employee Salary: ");
+                    double salary = scanner.nextDouble();
+                    manager.addEmployee(id, name, salary);
+                    break;
 
+                case 2:
+                    System.out.print("Enter Employee ID to update: ");
+                    id = scanner.nextInt();
+                    scanner.nextLine(); // Consume newline character
+                    System.out.print("Enter new Employee Name: ");
+                    name = scanner.nextLine();
+                    System.out.print("Enter new Employee Salary: ");
+                    salary = scanner.nextDouble();
+                    manager.updateEmployee(id, name, salary);
+                    break;
+
+                case 3:
+                    System.out.print("Enter Employee ID to remove: ");
+                    id = scanner.nextInt();
+                    manager.removeEmployee(id);
+                    break;
+
+                case 4:
+                    System.out.print("Enter Employee ID to search: ");
+                    id = scanner.nextInt();
+                    manager.searchEmployee(id);
+                    break;
+
+                case 5:
+                    manager.displayAllEmployees();
+                    break;
+
+                case 6:
+                    System.out.println("Exiting program.");
+                    scanner.close();
+                    System.exit(0);
+                    break;
+
+                default:
+                    System.out.println("Invalid choice! Please try again.");
+            }
+        }
+    }
+}
