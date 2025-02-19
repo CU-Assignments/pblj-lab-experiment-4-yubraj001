@@ -6,19 +6,19 @@ class Employee {
     String name;
     double salary;
 
-    // Constructor to initialize employee details
+   
     public Employee(int id, String name, double salary) {
         this.id = id;
         this.name = name;
         this.salary = salary;
     }
 
-    // Method to display employee details
+    
     public void displayDetails() {
         System.out.println("ID: " + id + ", Name: " + name + ", Salary: " + salary);
     }
 
-    // Method to update employee details
+   
     public void updateDetails(String name, double salary) {
         this.name = name;
         this.salary = salary;
